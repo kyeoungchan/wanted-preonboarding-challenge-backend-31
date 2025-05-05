@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -33,4 +34,13 @@ public class ProductImage {
     private Boolean isPrimary;
     private Integer displayOrder;
 
+    @Builder
+    public ProductImage(Product product, ProductOption productOption, String url, String altText, Boolean isPrimary, Integer displayOrder) {
+        this.product = product;
+        this.productOption = productOption;
+        this.url = url;
+        this.altText = altText;
+        this.isPrimary = isPrimary;
+        this.displayOrder = displayOrder;
+    }
 }

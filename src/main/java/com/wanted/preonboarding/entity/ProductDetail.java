@@ -10,6 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Type;
@@ -32,4 +33,11 @@ public class ProductDetail {
     @Type(JsonType.class)
     @Column(columnDefinition = "jsonb") // Jsonb 타입으로 저장
     private String additionalInfo;
+
+    @Builder
+    public ProductDetail(Product product, Float weight, String additionalInfo) {
+        this.product = product;
+        this.weight = weight;
+        this.additionalInfo = additionalInfo;
+    }
 }

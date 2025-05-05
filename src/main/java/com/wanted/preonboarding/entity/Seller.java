@@ -5,6 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -20,4 +21,12 @@ public class Seller {
     private String description;
     private String logoUrl;
     private Float rating;
+
+    @Builder
+    public Seller(String name, String description, String logoUrl, Float rating) {
+        this.name = name;
+        this.description = description;
+        this.logoUrl = logoUrl;
+        this.rating = rating;
+    }
 }

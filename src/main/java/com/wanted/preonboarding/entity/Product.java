@@ -13,6 +13,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -44,4 +45,14 @@ public class Product extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Convert(converter = StatusConverter.class)
     private Status status;
+
+    @Builder
+    public Product(Seller seller, Brand brand, String name, String slug, String fullDescription, Status status) {
+        this.seller = seller;
+        this.brand = brand;
+        this.name = name;
+        this.slug = slug;
+        this.fullDescription = fullDescription;
+        this.status = status;
+    }
 }

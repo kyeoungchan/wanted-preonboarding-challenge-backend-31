@@ -7,6 +7,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -28,4 +29,14 @@ public class Category {
     private String description;
     private Integer level;
     private String imageUrl;
+
+    @Builder
+    public Category(Category parent, String name, String slug, String description, Integer level, String imageUrl) {
+        this.parent = parent;
+        this.name = name;
+        this.slug = slug;
+        this.description = description;
+        this.level = level;
+        this.imageUrl = imageUrl;
+    }
 }

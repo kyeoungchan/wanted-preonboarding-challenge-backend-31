@@ -5,6 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -22,4 +23,13 @@ public class ProductOption {
     private String sku;
     private Integer stock;
     private Integer displayOrder;
+
+    @Builder
+    public ProductOption(String name, Float additionalPrice, String sku, Integer stock, Integer displayOrder) {
+        this.name = name;
+        this.additionalPrice = additionalPrice;
+        this.sku = sku;
+        this.stock = stock;
+        this.displayOrder = displayOrder;
+    }
 }
