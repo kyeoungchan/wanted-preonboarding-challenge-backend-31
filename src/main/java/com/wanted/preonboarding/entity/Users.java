@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class User extends BaseEntity {
+public class Users extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,7 +21,7 @@ public class User extends BaseEntity {
     private String email;
     private String avatarUrl;
 
-    public User(String name, String email, String avatarUrl) {
+    public Users(String name, String email, String avatarUrl) {
         this.name = name;
         this.email = email;
         this.avatarUrl = avatarUrl;
