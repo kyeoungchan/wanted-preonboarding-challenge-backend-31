@@ -4,6 +4,7 @@ import com.wanted.preonboarding.constant.Status;
 import com.wanted.preonboarding.entity.Brand;
 import com.wanted.preonboarding.entity.Product;
 import com.wanted.preonboarding.entity.Seller;
+import java.util.List;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
@@ -81,5 +82,31 @@ class ProductRepositoryTest {
         assertNotNull(foundProduct);
         assertTrue(foundProduct.isPresent());
         log.info("product: {}", foundProduct.get());
+    }
+
+    @Test
+    @DisplayName("상품명으로 검색 querydsl 기능이 잘 작동되는가?")
+    void querydslProductTest() {
+        Product productA = Product.builder()
+                .name("AAAAAAAA")
+                .build();
+        Product productB = Product.builder()
+                .name("BBBBBBBB")
+                .build();
+        Product productAB = Product.builder()
+                .name("AAABBBBB")
+                .build();
+        productRepository.save(productA);
+        productRepository.save(productB);
+        productRepository.save(productAB);
+
+        //then
+        List<Product> aaa = productRepository.findProductsByName("AAA");
+        assertNotNull(aaa);
+        assertFalse(aaa.isEmpty());
+        for (Product product : aaa) {
+            assertTrue(product.getName().contains("AAA"));
+            log.info("product: {}", product);
+        }
     }
 }
