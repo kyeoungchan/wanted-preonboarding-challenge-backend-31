@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,6 +16,8 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class Review extends BaseEntity {
 
     @Id
@@ -34,15 +37,4 @@ public class Review extends BaseEntity {
     private String content;
     private Boolean verifiedPurchase;
     private Integer helpfulVotes;
-
-    @Builder
-    public Review(Product product, Users users, Integer rating, String title, String content, Boolean verifiedPurchase, Integer helpfulVotes) {
-        this.product = product;
-        this.users = users;
-        this.rating = rating;
-        this.title = title;
-        this.content = content;
-        this.verifiedPurchase = verifiedPurchase;
-        this.helpfulVotes = helpfulVotes;
-    }
 }

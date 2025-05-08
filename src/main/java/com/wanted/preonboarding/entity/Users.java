@@ -5,12 +5,16 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class Users extends BaseEntity {
 
     @Id
@@ -20,10 +24,4 @@ public class Users extends BaseEntity {
     private String name;
     private String email;
     private String avatarUrl;
-
-    public Users(String name, String email, String avatarUrl) {
-        this.name = name;
-        this.email = email;
-        this.avatarUrl = avatarUrl;
-    }
 }

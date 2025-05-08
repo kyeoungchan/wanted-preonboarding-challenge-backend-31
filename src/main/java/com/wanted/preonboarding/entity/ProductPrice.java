@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,6 +16,8 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class ProductPrice {
 
     @Id
@@ -30,14 +33,4 @@ public class ProductPrice {
     private Float coastPrice;
     private String currency;
     private Float taxRate;
-
-    @Builder
-    public ProductPrice(Product product, Float basePrice, Float salePrice, Float coastPrice, String currency, Float taxRate) {
-        this.product = product;
-        this.basePrice = basePrice;
-        this.salePrice = salePrice;
-        this.coastPrice = coastPrice;
-        this.currency = currency;
-        this.taxRate = taxRate;
-    }
 }
