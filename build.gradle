@@ -33,6 +33,10 @@ dependencies {
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
 	implementation group: 'io.hypersistence', name: 'hypersistence-utils-hibernate-63', version: '3.9.10'
+
+	// test환경에서 로그 사용 의존성 추가
+	testCompileOnly 'org.projectlombok:lombok'
+	testAnnotationProcessor 'org.projectlombok:lombok'
 }
 
 tasks.named('test') {
