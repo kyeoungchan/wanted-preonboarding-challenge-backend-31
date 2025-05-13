@@ -30,7 +30,7 @@ public class ProductImage {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "option_id")
-    private ProductOption productOption;
+    private ProductOption option;
 
     private String url;
     private String altText;

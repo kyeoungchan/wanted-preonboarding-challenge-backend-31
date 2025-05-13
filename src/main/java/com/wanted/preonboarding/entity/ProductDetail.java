@@ -9,6 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,13 +28,23 @@ public class ProductDetail {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id")
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id", nullable = false, unique = true)
     private Product product;
 
-    private Float weight;
+    private Double weight;
+
+    @Type(JsonType.class)
+    @Column(columnDefinition = "jsonb")
+    private String dimensions; // JSON: {"width": float, "height": float, "depth": float}
+
+    private String materials;
+    private String countryOfOrigin;
+    private String warrantyInfo;
+    private String careInstructions;
 
     @Type(JsonType.class)
     @Column(columnDefinition = "jsonb") // Jsonb 타입으로 저장
-    private String additionalInfo;
+    private String additionalInfo; // JSON object for additional information
+
 }

@@ -32,6 +32,9 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
+	// validation
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+
 	// jsonb 타입 컬럼 의존성 추가
 	implementation group: 'io.hypersistence', name: 'hypersistence-utils-hibernate-63', version: '3.9.10'
 
