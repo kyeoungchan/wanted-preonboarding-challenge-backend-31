@@ -117,6 +117,6 @@ public class ProductService {
 
         // 최종 저장 및 응답 생성
         product = productRepository.save(product);
-        return productMapper.
+        return productMapper.toProductDto(product);
     }
 }

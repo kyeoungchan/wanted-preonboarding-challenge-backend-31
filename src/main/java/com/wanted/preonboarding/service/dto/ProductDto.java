@@ -55,7 +55,7 @@ public class ProductDto {
         private LocalDateTime updatedAt;
         private Detail detail;
         private Price price;
-        private List<ProductCategory> categories;
+        private List<Category> categories;
         private List<OptionGroup> optionGroups;
         private List<Image> images;
         private List<Tag> tags;
@@ -90,7 +90,7 @@ public class ProductDto {
         private String countryOfOrigin;
         private String warrantyInfo;
         private String careInstructions;
-        private Map<String, Object> addtionalInfo; // JSON object for additional information
+        private Map<String, Object> additionalInfo; // JSON object for additional information
     }
 
     @Builder
@@ -143,6 +143,7 @@ public class ProductDto {
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class Option {
         private Long id;
+        private Long optionGroupId;
         private String name;
         private Double additionalPrice;
         private String sku;

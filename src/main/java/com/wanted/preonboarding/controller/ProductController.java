@@ -26,6 +26,7 @@ public class ProductController {
     public ResponseEntity<ApiResponse<ProductDto.Product>> addProduct(@RequestBody ProductCreateRequest request) {
 
         ProductDto.CreateRequest createRequest = controllerProductMapper.toProductDtoCreateRequest(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success(, "상품이 성공적으로 등록되었습니다."));
+        ProductDto.Product createdProduct = productService.createProduct(createRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success(createdProduct, "상품이 성공적으로 등록되었습니다."));
     }
 }

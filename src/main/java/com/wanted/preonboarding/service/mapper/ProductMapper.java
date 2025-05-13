@@ -1,16 +1,24 @@
 package com.wanted.preonboarding.service.mapper;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wanted.preonboarding.constant.Status;
+import com.wanted.preonboarding.entity.Brand;
+import com.wanted.preonboarding.entity.Category;
 import com.wanted.preonboarding.entity.Product;
 import com.wanted.preonboarding.entity.ProductDetail;
 import com.wanted.preonboarding.entity.ProductImage;
 import com.wanted.preonboarding.entity.ProductOption;
 import com.wanted.preonboarding.entity.ProductOptionGroup;
 import com.wanted.preonboarding.entity.ProductPrice;
+import com.wanted.preonboarding.entity.Seller;
+import com.wanted.preonboarding.entity.Tag;
 import com.wanted.preonboarding.service.dto.ProductDto;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
@@ -40,7 +48,7 @@ public class ProductMapper {
                 .countryOfOrigin(detail.getCountryOfOrigin())
                 .warrantyInfo(detail.getWarrantyInfo())
                 .careInstructions(detail.getCareInstructions())
-                .additionalInfo(convertMapToJsonString(detail.getAddtionalInfo()))
+                .additionalInfo(convertMapToJsonString(detail.getAdditionalInfo()))
                 .build();
     }
 
@@ -84,17 +92,6 @@ public class ProductMapper {
                 .build();
     }
 
-    @SneakyThrows
-    private String convertMapToJsonString(Map<String, Object> map) {
-        if (map == null) return null;
-
-        try {
-            return mapper.writeValueAsString(map);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException("Error converting JSON String to Map", e);
-        }
-    }
-
     public ProductDto.Product toProductDto(Product product) {
         return ProductDto.Product.builder()
                 .id(product.getId())
@@ -126,5 +123,123 @@ public class ProductMapper {
                         .collect(Collectors.toList())
                 )
                 .build();
+    }
+
+    public ProductDto.Brand toBrandDto(Brand brand) {
+        return ProductDto.Brand.builder()
+                .id(brand.getId())
+                .name(brand.getName())
+                .build();
+    }
+
+    public ProductDto.Seller toSellerDto(Seller seller) {
+        return ProductDto.Seller.builder()
+                .id(seller.getId())
+                .name(seller.getName())
+                .build();
+    }
+
+    public ProductDto.Detail toDetailDto(ProductDetail detail) {
+        return ProductDto.Detail.builder()
+                .weight(detail.getWeight())
+                .dimensions(convertJsonStringToMap(detail.getDimensions()))
+                .materials(detail.getMaterials())
+                .countryOfOrigin(detail.getCountryOfOrigin())
+                .warrantyInfo(detail.getWarrantyInfo())
+                .careInstructions(detail.getCareInstructions())
+                .additionalInfo(convertJsonStringToMap(detail.getAdditionalInfo()))
+                .build();
+    }
+
+    public ProductDto.Price toPriceDto(ProductPrice price) {
+        return ProductDto.Price.builder()
+                .basePrice(price.getBasePrice())
+                .salePrice(price.getSalePrice())
+                .currency(price.getCurrency())
+                .taxRate(price.getTaxRate())
+                .build();
+    }
+
+    public ProductDto.Category toCategoryDto(Category category) {
+        return ProductDto.Category.builder()
+                .id(category.getId())
+                .name(category.getName())
+                .slug(category.getSlug())
+                .parent(toParentCategoryDto(category.getParent()))
+                .build();
+    }
+
+    public ProductDto.ParentCategory toParentCategoryDto(Category parent) {
+        if (parent == null) {
+            return null;
+        }
+        return ProductDto.ParentCategory.builder()
+                .id(parent.getId())
+                .name(parent.getName())
+                .slug(parent.getSlug())
+                .build();
+    }
+
+    public ProductDto.OptionGroup toOptionGroupDto(ProductOptionGroup group) {
+        return ProductDto.OptionGroup.builder()
+                .id(group.getId())
+                .name(group.getName())
+                .displayOrder(group.getDisplayOrder())
+                .options(group.getOptions().stream()
+                        .map(this::toOptionDto)
+                        .collect(Collectors.toList())
+                )
+                .build();
+    }
+
+    public ProductDto.Option toOptionDto(ProductOption option) {
+        return ProductDto.Option.builder()
+                .id(option.getId())
+                .optionGroupId(option.getOptionGroup().getId())
+                .name(option.getName())
+                .additionalPrice(option.getAdditionalPrice())
+                .sku(option.getSku())
+                .stock(option.getStock())
+                .displayOrder(option.getDisplayOrder())
+                .build();
+    }
+
+    public ProductDto.Image toImageDto(ProductImage image) {
+        return ProductDto.Image.builder()
+                .id(image.getId())
+                .url(image.getUrl())
+                .altText(image.getAltText())
+                .isPrimary(image.getIsPrimary())
+                .displayOrder(image.getDisplayOrder())
+                .optionId(image.getOption() != null ? image.getOption().getId() : null)
+                .build();
+    }
+
+    public ProductDto.Tag toTagDto(Tag tag) {
+        return ProductDto.Tag.builder()
+                .id(tag.getId())
+                .name(tag.getName())
+                .slug(tag.getSlug())
+                .build();
+    }
+
+    private String convertMapToJsonString(Map<String, Object> map) {
+        if (map == null) return null;
+
+        try {
+            return mapper.writeValueAsString(map);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("Error converting JSON Map to String", e);
+        }
+    }
+
+    private Map<String, Object> convertJsonStringToMap(String json) {
+        if (json == null || json.isEmpty()) return new HashMap<>();
+
+        try {
+            return mapper.readValue(json, new TypeReference<Map<String, Object>>() {});
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("Error converting JSON String to Map", e);
+        }
     }
 }
