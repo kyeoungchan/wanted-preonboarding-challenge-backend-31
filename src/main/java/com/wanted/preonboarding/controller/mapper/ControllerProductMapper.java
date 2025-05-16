@@ -2,6 +2,7 @@ package com.wanted.preonboarding.controller.mapper;
 
 import com.wanted.preonboarding.controller.dto.request.ProductCreateRequest;
 import com.wanted.preonboarding.controller.dto.request.ProductListRequest;
+import com.wanted.preonboarding.controller.dto.request.ProductOptionRequest;
 import com.wanted.preonboarding.controller.dto.request.ProductUpdateRequest;
 import com.wanted.preonboarding.service.dto.PaginationDto;
 import com.wanted.preonboarding.service.dto.ProductDto;
@@ -122,5 +123,27 @@ public class ControllerProductMapper {
                 .categories(request.getCategories().stream().map(this::toProductDtoProductCategory).toList())
                 .tagIds(request.getTagIds().stream().toList())
                 .build();
+    }
+
+    public ProductDto.Option toProductDtoOptionWithOptionGroupId(Long optionGroupId, ProductOptionRequest request){
+        ProductDto.Option option = toProductDtoOption(request);
+        option.setOptionGroupId(optionGroupId);
+        return option;
+    }
+
+    public ProductDto.Option toProductDtoOption(ProductOptionRequest request) {
+        return ProductDto.Option.builder()
+                .name(request.getName())
+                .additionalPrice(request.getAdditionalPrice())
+                .sku(request.getSku())
+                .stock(request.getStock())
+                .displayOrder(request.getDisplayOrder())
+                .build();
+    }
+
+    public ProductDto.Option toProductDtoOptionWithOptionId(Long optionId, ProductOptionRequest request){
+        ProductDto.Option option = toProductDtoOption(request);
+        option.setId(optionId);
+        return option;
     }
 }

@@ -15,6 +15,7 @@ import com.wanted.preonboarding.entity.Tag;
 import com.wanted.preonboarding.exception.ResourceNotFoundException;
 import com.wanted.preonboarding.repository.BrandRepository;
 import com.wanted.preonboarding.repository.CategoryRepository;
+import com.wanted.preonboarding.repository.ProductOptionGroupRepository;
 import com.wanted.preonboarding.repository.ProductOptionRepository;
 import com.wanted.preonboarding.repository.ProductRepository;
 import com.wanted.preonboarding.repository.ProductSpecification;
@@ -42,6 +43,7 @@ public class ProductService {
     private final CategoryRepository categoryRepository;
     private final TagRepository tagRepository;
     private final ProductOptionRepository optionRepository;
+    private final ProductOptionGroupRepository optionGroupRepository;
     private final ProductMapper productMapper;
 
     public ProductDto.Product createProduct(ProductDto.CreateRequest request) {
@@ -281,5 +283,83 @@ public class ProductService {
 
         // 하드 삭제가 필요한 경우 사용
 //        productRepository.delete(product);
+    }
+
+    @Transactional
+    public ProductDto.Option addProductOption(Long productId, ProductDto.Option request) {
+        Long optionGroupId = request.getOptionGroupId();
+
+        ProductOptionGroup optionGroup = optionGroupRepository.findById(optionGroupId)
+                .orElseThrow(() -> new ResourceNotFoundException("OptionGroup", optionGroupId));
+
+        // 해당 옵션 그룹이 요청된 상품에 속하는지 확인
+        if (!optionGroup.getProduct().getId().equals(productId)) {
+            throw new IllegalArgumentException("OptionGroup does not belong to the specified product");
+        }
+
+        // OptionDto
+        ProductDto.Option optionDto = ProductDto.Option.builder()
+                .optionGroupId(optionGroupId)
+                .name(request.getName())
+                .additionalPrice(request.getAdditionalPrice())
+                .sku(request.getSku())
+                .stock(request.getStock())
+                .displayOrder(request.getDisplayOrder())
+                .build();
+
+        // 옵션 엔티티 생성 및 저장
+        ProductOption option = productMapper.toProductOptionEntity(optionDto, optionGroup);
+        option = optionRepository.save(option);
+
+        return productMapper.toOptionDto(option);
+    }
+
+    @Transactional
+    public ProductDto.Option updateProductOption(Long productId, ProductDto.Option request) {
+        Long optionId = request.getId();
+
+        ProductOption option = optionRepository.findById(optionId)
+                .orElseThrow(() -> new ResourceNotFoundException("Option", optionId));
+
+        // 해당 옵션이 요청된 상품에 속하는지 확인
+        if (!option.getOptionGroup().getProduct().getId().equals(productId)) {
+            throw new IllegalArgumentException("Option does not belong to the specified product");
+        }
+
+        // 옵션 업데이트
+        if (request.getName() != null) {
+            option.setName(request.getName());
+        }
+        if (request.getAdditionalPrice() != null) {
+            option.setAdditionalPrice(request.getAdditionalPrice());
+        }
+
+        if (request.getSku() != null) {
+            option.setSku(request.getSku());
+        }
+
+        if (request.getStock() != null) {
+            option.setStock(request.getStock());
+        }
+
+        if (request.getDisplayOrder() != null) {
+            option.setDisplayOrder(request.getDisplayOrder());
+        }
+
+        option = optionRepository.save(option);
+        return productMapper.toOptionDto(option);
+    }
+
+    @Transactional
+    public void deleteProductOption(Long productId, Long optionId) {
+        ProductOption option = optionRepository.findById(optionId)
+                .orElseThrow(() -> new ResourceNotFoundException("Option", optionId));
+
+        // 해당 옵션이 요청된 상품에 속하는지 확인
+        if (!option.getOptionGroup().getProduct().getId().equals(productId)) {
+            throw new IllegalArgumentException("Option does not belong to the specified product");
+        }
+
+        optionRepository.delete(option);
     }
 }

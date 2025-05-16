@@ -1,5 +1,6 @@
 package com.wanted.preonboarding.controller;
 
+import com.wanted.preonboarding.controller.dto.request.ProductOptionRequest;
 import com.wanted.preonboarding.controller.dto.request.ProductUpdateRequest;
 import com.wanted.preonboarding.controller.dto.response.ApiResponse;
 import com.wanted.preonboarding.controller.dto.request.ProductCreateRequest;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -65,5 +67,36 @@ public class ProductController {
     public ResponseEntity<ApiResponse<Void>> deleteProduct(@PathVariable Long id) {
         productService.deleteProduct(id);
         return ResponseEntity.ok(ApiResponse.success(null, "상품이 성공적으로 삭제되었습니다."));
+    }
+
+    @PostMapping("/{id}/options")
+    public ResponseEntity<ApiResponse<ProductDto.Option>> addProductOption(
+            @PathVariable Long id,
+            @RequestParam Long optionGroupId,
+            @RequestBody ProductOptionRequest request
+    ) {
+        ProductDto.Option createRequest = mapper.toProductDtoOptionWithOptionGroupId(optionGroupId, request);
+        ProductDto.Option createdOption = productService.addProductOption(id, createRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success(createdOption, "상품 옵션이 성공적으로 추가되었습니다."));
+    }
+
+    @PutMapping("/{id}/options/{optionId}")
+    public ResponseEntity<ApiResponse<ProductDto.Option>> updateProductOption(
+            @PathVariable Long id,
+            @PathVariable Long optionId,
+            @RequestBody ProductOptionRequest request
+    ) {
+        ProductDto.Option updatedRequest = mapper.toProductDtoOptionWithOptionId(optionId, request);
+        ProductDto.Option updatedOption = productService.updateProductOption(id, updatedRequest);
+        return ResponseEntity.ok(ApiResponse.success(updatedOption, "상품 옵션이 성공적으로 수정되었습니다."));
+    }
+
+    @DeleteMapping("/{id}/options/{optionId}")
+    public ResponseEntity<ApiResponse<Void>> deleteProductOption(
+            @PathVariable Long id,
+            @PathVariable Long optionId
+    ) {
+        productService.deleteProductOption(id, optionId);
+        return ResponseEntity.ok(ApiResponse.success(null, "상품 옵션이 성공적으로 삭제되었습니다."));
     }
 }

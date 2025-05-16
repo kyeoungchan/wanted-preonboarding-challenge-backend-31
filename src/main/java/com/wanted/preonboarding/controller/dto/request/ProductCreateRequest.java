@@ -93,7 +93,7 @@ public class ProductCreateRequest {
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class ProductOptionDto {
         private String name; // 옵션명 (예: "빨강", "XL")
-        private Double addtionalPrice; // 추가 가격
+        private BigDecimal addtionalPrice; // 추가 가격
         private String sku; // 재고 관리 코드
         private Integer stock; // 재고 수량
         private Integer displayOrder; // 표시 순서

@@ -9,6 +9,7 @@ import java.util.Map;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -141,14 +142,14 @@ public class ProductDto {
     }
 
     @Builder
-    @Getter
+    @Data
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     @AllArgsConstructor(access = AccessLevel.PROTECTED)
     public static class Option {
         private Long id;
         private Long optionGroupId;
         private String name;
-        private Double additionalPrice;
+        private BigDecimal additionalPrice;
         private String sku;
         private Integer stock;
         private Integer displayOrder;
