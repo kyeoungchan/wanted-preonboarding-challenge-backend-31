@@ -2,9 +2,8 @@ package com.wanted.preonboarding.service.mapper;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.wanted.preonboarding.constant.Status;
+import com.wanted.preonboarding.constant.ProductStatus;
 import com.wanted.preonboarding.entity.Brand;
 import com.wanted.preonboarding.entity.Category;
 import com.wanted.preonboarding.entity.Product;
@@ -13,6 +12,7 @@ import com.wanted.preonboarding.entity.ProductImage;
 import com.wanted.preonboarding.entity.ProductOption;
 import com.wanted.preonboarding.entity.ProductOptionGroup;
 import com.wanted.preonboarding.entity.ProductPrice;
+import com.wanted.preonboarding.entity.Review;
 import com.wanted.preonboarding.entity.Seller;
 import com.wanted.preonboarding.entity.Tag;
 import com.wanted.preonboarding.service.dto.ProductDto;
@@ -20,7 +20,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -35,7 +34,7 @@ public class ProductMapper {
                 .slug(request.getSlug())
                 .shortDescription(request.getShortDescription())
                 .fullDescription(request.getFullDescription())
-                .status(Status.valueOf(request.getStatus()))
+                .status(ProductStatus.valueOf(request.getStatus()))
                 .build();
     }
 
@@ -209,7 +208,7 @@ public class ProductMapper {
                 .id(image.getId())
                 .url(image.getUrl())
                 .altText(image.getAltText())
-                .isPrimary(image.getIsPrimary())
+                .isPrimary(image.isPrimary())
                 .displayOrder(image.getDisplayOrder())
                 .optionId(image.getOption() != null ? image.getOption().getId() : null)
                 .build();
@@ -241,5 +240,34 @@ public class ProductMapper {
         } catch (JsonProcessingException e) {
             throw new RuntimeException("Error converting JSON String to Map", e);
         }
+    }
+
+    public ProductDto.ProductSummary toProductSummaryDto(Product product) {
+        return ProductDto.ProductSummary.builder()
+                .id(product.getId())
+                .name(product.getName())
+                .slug(product.getSlug())
+                .shortDescription(product.getShortDescription())
+                .basePrice(product.getPrice().getBasePrice())
+                .salePrice(product.getPrice().getSalePrice())
+                .currency(product.getPrice().getCurrency())
+                .primaryImage(product.getImages().stream()
+                        .filter(ProductImage::isPrimary)
+                        .findFirst()
+                        .map(this::toImageDto)
+                        .orElse(null)
+                )
+                .brand(toBrandDto(product.getBrand()))
+                .seller(toSellerDto(product.getSeller()))
+                .rating(product.getReviews().stream()
+                        .mapToInt(Review::getRating)
+                        .average()
+                        .orElse(0.0)
+                )
+                .reviewCount(product.getReviews().size())
+                .inStock(product.getStatus().equals(ProductStatus.ACTIVE))
+                .status(product.getStatus().name())
+                .createdAt(product.getCreatedAt())
+                .build();
     }
 }

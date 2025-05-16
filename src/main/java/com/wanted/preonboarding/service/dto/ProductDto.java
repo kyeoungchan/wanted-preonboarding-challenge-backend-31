@@ -1,5 +1,7 @@
 package com.wanted.preonboarding.service.dto;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 public class ProductDto {
 
@@ -98,11 +101,11 @@ public class ProductDto {
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class Price {
-        private Double basePrice;
-        private Double salePrice;
-        private Double costPrice;
+        private BigDecimal basePrice;
+        private BigDecimal salePrice;
+        private BigDecimal costPrice;
         private String currency;
-        private Double taxRate;
+        private BigDecimal taxRate;
     }
 
     @Builder
@@ -181,5 +184,51 @@ public class ProductDto {
     public static class ProductCategory {
         private Long id;
         private Boolean isPrimary;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class ProductSummary {
+        private Long id;
+        private String name;
+        private String slug;
+        private String shortDescription;
+        private BigDecimal basePrice;
+        private BigDecimal salePrice;
+        private String currency;
+        private Image primaryImage;
+        private Brand brand;
+        private Seller seller;
+        private Double rating;
+        private Integer reviewCount;
+        private Boolean inStock;
+        private String status;
+        private LocalDateTime createdAt;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class ListRequest {
+        private String status;
+        private BigDecimal minPrice;
+        private BigDecimal maxPrice;
+        private List<Long> category;
+        private Long seller;
+        private Long brand;
+        private Boolean inStock;
+        private List<Long> tag;
+        private String search;
+
+        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+        private LocalDate createdFrom;
+
+        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+        private LocalDate createdTo;
+
+        private PaginationDto.PaginationRequest pagination;
     }
 }

@@ -1,6 +1,7 @@
 package com.wanted.preonboarding.controller.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -52,11 +53,11 @@ public class ProductCreateRequest {
     @AllArgsConstructor(access = AccessLevel.PROTECTED)
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class ProductPriceDto {
-        private Double basePrice;
-        private Double salePrice;
-        private Double costPrice;
+        private BigDecimal basePrice;
+        private BigDecimal salePrice;
+        private BigDecimal costPrice;
         private String currency;
-        private Double taxRate;
+        private BigDecimal taxRate;
     }
 
     @Builder

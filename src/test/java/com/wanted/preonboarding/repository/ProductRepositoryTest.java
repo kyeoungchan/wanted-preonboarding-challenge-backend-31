@@ -1,6 +1,6 @@
 package com.wanted.preonboarding.repository;
 
-import com.wanted.preonboarding.constant.Status;
+import com.wanted.preonboarding.constant.ProductStatus;
 import com.wanted.preonboarding.entity.Brand;
 import com.wanted.preonboarding.entity.Product;
 import com.wanted.preonboarding.entity.Seller;
@@ -46,7 +46,8 @@ class ProductRepositoryTest {
         Product product = Product.builder()
                 .seller(seller)
                 .brand(brand)
-                .status(Status.ON_SALE)
+                .slug("slug!!!")
+                .status(ProductStatus.ACTIVE)
                 .name("productName")
                 .build();
         log.info("product: {}", product);
@@ -72,8 +73,9 @@ class ProductRepositoryTest {
         Product product = Product.builder()
                 .seller(seller)
                 .brand(brand)
-                .status(Status.ON_SALE)
+                .status(ProductStatus.ACTIVE)
                 .name("productName")
+                .slug("slug!!!")
                 .build();
          Long id = productRepository.save(product).getId();
 
@@ -89,12 +91,18 @@ class ProductRepositoryTest {
     void querydslProductTest() {
         Product productA = Product.builder()
                 .name("AAAAAAAA")
+                .slug("slugA")
+                .status(ProductStatus.ACTIVE)
                 .build();
         Product productB = Product.builder()
                 .name("BBBBBBBB")
+                .slug("slugB")
+                .status(ProductStatus.ACTIVE)
                 .build();
         Product productAB = Product.builder()
                 .name("AAABBBBB")
+                .slug("slugC")
+                .status(ProductStatus.ACTIVE)
                 .build();
         productRepository.save(productA);
         productRepository.save(productB);

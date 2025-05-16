@@ -9,6 +9,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import java.math.BigDecimal;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,11 +33,11 @@ public class ProductPrice {
     @JoinColumn(name = "product_id", nullable = false, unique = true)
     private Product product;
 
-    private Double basePrice;
-    private Double salePrice;
-    private Double coastPrice;
+    private BigDecimal basePrice;
+    private BigDecimal salePrice;
+    private BigDecimal coastPrice;
     @Builder.Default
     private String currency = "KRW";
-    private Double taxRate;
+    private BigDecimal taxRate;
 
 }

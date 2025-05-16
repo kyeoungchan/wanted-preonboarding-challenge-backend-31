@@ -1,6 +1,8 @@
 package com.wanted.preonboarding.controller.mapper;
 
 import com.wanted.preonboarding.controller.dto.request.ProductCreateRequest;
+import com.wanted.preonboarding.controller.dto.request.ProductListRequest;
+import com.wanted.preonboarding.service.dto.PaginationDto;
 import com.wanted.preonboarding.service.dto.ProductDto;
 import org.springframework.stereotype.Component;
 
@@ -32,7 +34,7 @@ public class ControllerProductMapper {
                 .countryOfOrigin(request.getCountryOfOrigin())
                 .warrantyInfo(request.getWarrantyInfo())
                 .careInstructions(request.getCareInstructions())
-                .addtionalInfo(request.getAdditionalInfo())
+                .additionalInfo(request.getAdditionalInfo())
                 .build();
     }
 
@@ -77,6 +79,31 @@ public class ControllerProductMapper {
                 .altText(request.getAltText())
                 .isPrimary(request.getIsPrimary())
                 .displayOrder(request.getDisplayOrder())
+                .build();
+    }
+
+    public ProductDto.ListRequest toProductDtoListRequest(ProductListRequest request) {
+        return ProductDto.ListRequest.builder()
+                .status(request.getStatus())
+                .minPrice(request.getMinPrice())
+                .maxPrice(request.getMaxPrice())
+                .category(request.getCategory())
+                .seller(request.getSeller())
+                .brand(request.getBrand())
+                .inStock(request.getInStock())
+                .tag(request.getTag())
+                .search(request.getSearch())
+                .createdFrom(request.getCreatedFrom())
+                .createdTo(request.getCreatedTo())
+                .pagination(toPaginationInfo(request))
+                .build();
+    }
+
+    public PaginationDto.PaginationRequest toPaginationInfo(ProductListRequest request) {
+        return PaginationDto.PaginationRequest.builder()
+                .page(request.getPage())
+                .size(request.getPage())
+                .sort(request.getSort())
                 .build();
     }
 }

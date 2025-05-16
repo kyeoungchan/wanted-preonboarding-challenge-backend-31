@@ -1,19 +1,19 @@
 package com.wanted.preonboarding.converter;
 
-import com.wanted.preonboarding.constant.Status;
+import com.wanted.preonboarding.constant.ProductStatus;
 import jakarta.persistence.AttributeConverter;
 
-public class StatusConverter implements AttributeConverter<Status, String> {
+public class StatusConverter implements AttributeConverter<ProductStatus, String> {
     @Override
-    public String convertToDatabaseColumn(Status status) {
-        if (status == null) {
+    public String convertToDatabaseColumn(ProductStatus productStatus) {
+        if (productStatus == null) {
             return null;
         }
-        return status.name();
+        return productStatus.name();
     }
 
     @Override
-    public Status convertToEntityAttribute(String s) {
-        return Status.getInstance(s);
+    public ProductStatus convertToEntityAttribute(String s) {
+        return ProductStatus.getInstance(s);
     }
 }

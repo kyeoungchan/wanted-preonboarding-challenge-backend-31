@@ -1,4 +1,4 @@
-package com.wanted.preonboarding.controller.dto;
+package com.wanted.preonboarding.controller.dto.response;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

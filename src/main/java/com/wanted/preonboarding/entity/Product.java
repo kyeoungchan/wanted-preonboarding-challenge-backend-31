@@ -1,6 +1,6 @@
 package com.wanted.preonboarding.entity;
 
-import com.wanted.preonboarding.constant.Status;
+import com.wanted.preonboarding.constant.ProductStatus;
 import com.wanted.preonboarding.converter.StatusConverter;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Convert;
@@ -56,7 +56,7 @@ public class Product extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     @Convert(converter = StatusConverter.class)
-    private Status status;
+    private ProductStatus status;
 
     // One-to-One relationships
     @OneToOne(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
@@ -93,4 +93,7 @@ public class Product extends BaseEntity {
     @Builder.Default
     private List<Tag> tags = new ArrayList<>();
 
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    List<Review> reviews = new ArrayList<>();
 }

@@ -47,6 +47,9 @@ dependencies {
 	annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
 	annotationProcessor "jakarta.annotation:jakarta.annotation-api"
 	annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+
+	// Swagger 관련 의존성 추가
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.4'
 }
 
 tasks.named('test') {
