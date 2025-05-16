@@ -27,9 +27,13 @@ public class ProductCreateRequest {
 
     private ProductDetailDto detail;
     private ProductPriceDto price;
+    @Builder.Default
     private List<ProductCategoryDto> categories = new ArrayList<>();
+    @Builder.Default
     private List<Long> tagIds = new ArrayList<>();
+    @Builder.Default
     private List<ProductOptionGroupDto> optionGroups = new ArrayList<>();
+    @Builder.Default
     private List<ProductImageDto> images = new ArrayList<>();
 
     @Builder
@@ -78,6 +82,7 @@ public class ProductCreateRequest {
     public static class ProductOptionGroupDto {
         private String name; // 옵션 그룹명 (예: "색상", "사이즈")
         private Integer displayOrder; // 표시 순서
+        @Builder.Default
         private List<ProductOptionDto> options = new ArrayList<>();
     }
 

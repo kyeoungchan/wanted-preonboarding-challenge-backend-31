@@ -2,6 +2,7 @@ package com.wanted.preonboarding.controller.mapper;
 
 import com.wanted.preonboarding.controller.dto.request.ProductCreateRequest;
 import com.wanted.preonboarding.controller.dto.request.ProductListRequest;
+import com.wanted.preonboarding.controller.dto.request.ProductUpdateRequest;
 import com.wanted.preonboarding.service.dto.PaginationDto;
 import com.wanted.preonboarding.service.dto.ProductDto;
 import org.springframework.stereotype.Component;
@@ -104,6 +105,22 @@ public class ControllerProductMapper {
                 .page(request.getPage())
                 .size(request.getPage())
                 .sort(request.getSort())
+                .build();
+    }
+
+    public ProductDto.UpdateRequest toServiceUpdateDto(ProductUpdateRequest request) {
+        return ProductDto.UpdateRequest.builder()
+                .name(request.getName())
+                .slug(request.getSlug())
+                .shortDescription(request.getShortDescription())
+                .fullDescription(request.getFullDescription())
+                .sellerId(request.getSellerId())
+                .brandId(request.getBrandId())
+                .status(request.getStatus())
+                .detail(toProductDtoDetail(request.getDetail()))
+                .price(toProductDtoPrice(request.getPrice()))
+                .categories(request.getCategories().stream().map(this::toProductDtoProductCategory).toList())
+                .tagIds(request.getTagIds().stream().toList())
                 .build();
     }
 }

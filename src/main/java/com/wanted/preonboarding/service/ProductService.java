@@ -1,5 +1,6 @@
 package com.wanted.preonboarding.service;
 
+import com.wanted.preonboarding.constant.ProductStatus;
 import com.wanted.preonboarding.controller.dto.response.ProductListResponse;
 import com.wanted.preonboarding.entity.Brand;
 import com.wanted.preonboarding.entity.Category;
@@ -208,5 +209,77 @@ public class ProductService {
                 .items(productSummaries)
                 .pagination(paginationInfo)
                 .build();
+    }
+
+    @Transactional(readOnly = true)
+    public ProductDto.Product getProductById(Long id) {
+        Product foundProduct = productRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Product", id));
+        return productMapper.toProductDto(foundProduct);
+    }
+
+    @Transactional
+    public ProductDto.Product updateProduct(Long productId, ProductDto.UpdateRequest request) {
+        Product product = productRepository.findById(productId)
+                .map(entity -> productMapper.updateProductEntity(request, entity))
+                .orElseThrow(() -> new ResourceNotFoundException("Product", productId));
+
+        // 연관 엔티티 업데이트
+        if (request.getSellerId() != null) {
+            Seller seller = sellerRepository.findById(request.getSellerId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Seller", request.getSellerId()));
+            product.setSeller(seller);
+        }
+
+        if (request.getBrandId() != null) {
+            Brand brand = brandRepository.findById(request.getBrandId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Brand", request.getBrandId()));
+            product.setBrand(brand);
+        }
+
+        // ProductDetail 업데이트
+        if (request.getDetail() != null && product.getDetail() != null) {
+            productMapper.updateProductDetailEntity(request.getDetail(), product.getDetail());
+        }
+
+        // ProductPrice 업데이트
+        if (request.getPrice() != null && product.getPrice() != null) {
+            productMapper.updateProductPriceEntity(request.getPrice(), product.getPrice());
+        }
+
+        // 카테고리 업데이트
+        if (request.getCategories() != null) {
+            product.getCategories().clear();
+            List<Long> categoryIds = request.getCategories().stream()
+                    .map(ProductDto.ProductCategory::getId)
+                    .toList();
+            List<Category> categories = categoryRepository.findAllById(categoryIds);
+            product.getCategories().addAll(categories);
+        }
+
+        // 태그 업데이트
+        if (request.getTagIds() != null) {
+            product.getTags().clear();
+            List<Tag> tags = tagRepository.findAllById(request.getTagIds());
+            product.getTags().addAll(tags);
+        }
+
+        // 저장 및 응답 생성
+        product = productRepository.save(product);
+
+        return productMapper.toProductDto(product);
+    }
+
+    @Transactional
+    public void deleteProduct(Long productId) {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new ResourceNotFoundException("Product", productId));
+
+        // 소프트 삭제
+        product.setStatus(ProductStatus.DELETED);
+        productRepository.save(product);
+
+        // 하드 삭제가 필요한 경우 사용
+//        productRepository.delete(product);
     }
 }

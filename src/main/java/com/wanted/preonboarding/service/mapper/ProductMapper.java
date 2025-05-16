@@ -270,4 +270,64 @@ public class ProductMapper {
                 .createdAt(product.getCreatedAt())
                 .build();
     }
+
+    public Product updateProductEntity(ProductDto.UpdateRequest request, Product product) {
+        if (request.getName() != null) {
+            product.setName(request.getName());
+        }
+        if (request.getSlug() != null) {
+            product.setSlug(request.getSlug());
+        }
+        if (request.getShortDescription() != null) {
+            product.setShortDescription(request.getShortDescription());
+        }
+        if (request.getFullDescription() != null) {
+            product.setFullDescription(request.getFullDescription());
+        }
+        if (request.getStatus() != null) {
+            product.setStatus(ProductStatus.valueOf(request.getStatus()));
+        }
+        return product;
+    }
+
+    public ProductDetail updateProductDetailEntity(ProductDto.Detail detail, ProductDetail productDetail) {
+        if (detail.getWeight() != null) {
+            productDetail.setWeight(detail.getWeight());
+        }
+        if (detail.getDimensions() != null) {
+            productDetail.setDimensions(convertMapToJsonString(detail.getDimensions()));
+        }
+        if (detail.getMaterials() != null) {
+            productDetail.setMaterials(detail.getMaterials());
+        }
+        if (detail.getCountryOfOrigin() != null) {
+            productDetail.setCountryOfOrigin(detail.getCountryOfOrigin());
+        }
+        if (detail.getWarrantyInfo() != null) {
+            productDetail.setWarrantyInfo(detail.getWarrantyInfo());
+        }
+        if (detail.getCareInstructions() != null) {
+            productDetail.setCareInstructions(detail.getCareInstructions());
+        }
+        if (detail.getAdditionalInfo() != null) {
+            productDetail.setAdditionalInfo(convertMapToJsonString(detail.getAdditionalInfo()));
+        }
+        return productDetail;
+    }
+
+    public ProductPrice updateProductPriceEntity(ProductDto.Price price, ProductPrice productPrice) {
+        if (price.getBasePrice() != null) {
+            productPrice.setBasePrice(price.getBasePrice());
+        }
+        if (price.getSalePrice() != null) {
+            productPrice.setSalePrice(price.getSalePrice());
+        }
+        if (price.getCurrency() != null) {
+            productPrice.setCurrency(price.getCurrency());
+        }
+        if (price.getTaxRate() != null) {
+            productPrice.setTaxRate(price.getTaxRate());
+        }
+        return productPrice;
+    }
 }

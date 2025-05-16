@@ -18,7 +18,7 @@ public class ProductDto {
     @Builder
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @AllArgsConstructor(access = AccessLevel.PROTECTED)
     public static class CreateRequest {
         private String name;
         private String slug;
@@ -44,7 +44,7 @@ public class ProductDto {
     @Builder
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @AllArgsConstructor(access = AccessLevel.PROTECTED)
     public static class Product {
         private Long id;
         private String name;
@@ -67,7 +67,7 @@ public class ProductDto {
     @Builder
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @AllArgsConstructor(access = AccessLevel.PROTECTED)
     public static class Seller {
         private Long id;
         private String name;
@@ -76,7 +76,7 @@ public class ProductDto {
     @Builder
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @AllArgsConstructor(access = AccessLevel.PROTECTED)
     public static class Brand {
         private Long id;
         private String name;
@@ -85,7 +85,7 @@ public class ProductDto {
     @Builder
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @AllArgsConstructor(access = AccessLevel.PROTECTED)
     public static class Detail {
         private Double weight;
         private Map<String, Object> dimensions; // JSON: {"width": float, "height": float, "depth": float}
@@ -99,7 +99,7 @@ public class ProductDto {
     @Builder
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @AllArgsConstructor(access = AccessLevel.PROTECTED)
     public static class Price {
         private BigDecimal basePrice;
         private BigDecimal salePrice;
@@ -111,7 +111,7 @@ public class ProductDto {
     @Builder
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @AllArgsConstructor(access = AccessLevel.PROTECTED)
     public static class Category {
         private Long id;
         private String name;
@@ -122,7 +122,7 @@ public class ProductDto {
     @Builder
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @AllArgsConstructor(access = AccessLevel.PROTECTED)
     public static class ParentCategory {
         private Long id;
         private String name;
@@ -132,7 +132,7 @@ public class ProductDto {
     @Builder
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @AllArgsConstructor(access = AccessLevel.PROTECTED)
     public static class OptionGroup {
         private Long id;
         private String name;
@@ -143,7 +143,7 @@ public class ProductDto {
     @Builder
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @AllArgsConstructor(access = AccessLevel.PROTECTED)
     public static class Option {
         private Long id;
         private Long optionGroupId;
@@ -157,7 +157,7 @@ public class ProductDto {
     @Builder
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @AllArgsConstructor(access = AccessLevel.PROTECTED)
     public static class Image {
         private Long id;
         private String url;
@@ -170,7 +170,7 @@ public class ProductDto {
     @Builder
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @AllArgsConstructor(access = AccessLevel.PROTECTED)
     public static class Tag {
         private Long id;
         private String name;
@@ -180,7 +180,7 @@ public class ProductDto {
     @Builder
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @AllArgsConstructor(access = AccessLevel.PROTECTED)
     public static class ProductCategory {
         private Long id;
         private Boolean isPrimary;
@@ -189,7 +189,7 @@ public class ProductDto {
     @Builder
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @AllArgsConstructor(access = AccessLevel.PROTECTED)
     public static class ProductSummary {
         private Long id;
         private String name;
@@ -211,7 +211,7 @@ public class ProductDto {
     @Builder
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @AllArgsConstructor(access = AccessLevel.PROTECTED)
     public static class ListRequest {
         private String status;
         private BigDecimal minPrice;
@@ -230,5 +230,24 @@ public class ProductDto {
         private LocalDate createdTo;
 
         private PaginationDto.PaginationRequest pagination;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    @AllArgsConstructor(access = AccessLevel.PROTECTED)
+    public static class UpdateRequest {
+        private String name;
+        private String slug;
+        private String shortDescription;
+        private String fullDescription;
+        private Long sellerId;
+        private Long brandId;
+        private String status;
+
+        private Detail detail;
+        private Price price;
+        private List<ProductCategory> categories;
+        private List<Long> tagIds;
     }
 }

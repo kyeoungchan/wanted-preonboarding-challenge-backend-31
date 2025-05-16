@@ -17,8 +17,11 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ProductListRequest {
+    @Builder.Default
     private Integer page = 1;
+    @Builder.Default
     private Integer perPage = 10;
+    @Builder.Default
     private String sort = "created_at:desc";
     private String status;
     private BigDecimal minPrice;
