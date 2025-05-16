@@ -1,6 +1,7 @@
 package com.wanted.preonboarding.controller.mapper;
 
 import com.wanted.preonboarding.controller.dto.request.ProductCreateRequest;
+import com.wanted.preonboarding.controller.dto.request.ProductImageRequest;
 import com.wanted.preonboarding.controller.dto.request.ProductListRequest;
 import com.wanted.preonboarding.controller.dto.request.ProductOptionRequest;
 import com.wanted.preonboarding.controller.dto.request.ProductUpdateRequest;
@@ -145,5 +146,14 @@ public class ControllerProductMapper {
         ProductDto.Option option = toProductDtoOption(request);
         option.setId(optionId);
         return option;
+    }
+
+    public ProductDto.Image toProductDtoImage(ProductImageRequest request) {
+        return ProductDto.Image.builder()
+                .url(request.getUrl())
+                .altText(request.getAltText())
+                .isPrimary(request.isPrimary())
+                .displayOrder(request.getDisplayOrder())
+                .build();
     }
 }

@@ -1,5 +1,6 @@
 package com.wanted.preonboarding.controller;
 
+import com.wanted.preonboarding.controller.dto.request.ProductImageRequest;
 import com.wanted.preonboarding.controller.dto.request.ProductOptionRequest;
 import com.wanted.preonboarding.controller.dto.request.ProductUpdateRequest;
 import com.wanted.preonboarding.controller.dto.response.ApiResponse;
@@ -86,8 +87,8 @@ public class ProductController {
             @PathVariable Long optionId,
             @RequestBody ProductOptionRequest request
     ) {
-        ProductDto.Option updatedRequest = mapper.toProductDtoOptionWithOptionId(optionId, request);
-        ProductDto.Option updatedOption = productService.updateProductOption(id, updatedRequest);
+        ProductDto.Option updateRequest = mapper.toProductDtoOptionWithOptionId(optionId, request);
+        ProductDto.Option updatedOption = productService.updateProductOption(id, updateRequest);
         return ResponseEntity.ok(ApiResponse.success(updatedOption, "상품 옵션이 성공적으로 수정되었습니다."));
     }
 
@@ -98,5 +99,15 @@ public class ProductController {
     ) {
         productService.deleteProductOption(id, optionId);
         return ResponseEntity.ok(ApiResponse.success(null, "상품 옵션이 성공적으로 삭제되었습니다."));
+    }
+
+    @PostMapping("/{id}/images")
+    public ResponseEntity<ApiResponse<ProductDto.Image>> addProductImage(
+            @PathVariable Long id,
+            @RequestBody ProductImageRequest request
+    ) {
+        ProductDto.Image createRequest = mapper.toProductDtoImage(request);
+        ProductDto.Image createdImage = productService.addProductImage(id, createRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success(createdImage, "상품 이미지가 성공적으로 추가되었습니다."));
     }
 }

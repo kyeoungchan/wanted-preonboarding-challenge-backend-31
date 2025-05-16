@@ -15,6 +15,7 @@ import com.wanted.preonboarding.entity.Tag;
 import com.wanted.preonboarding.exception.ResourceNotFoundException;
 import com.wanted.preonboarding.repository.BrandRepository;
 import com.wanted.preonboarding.repository.CategoryRepository;
+import com.wanted.preonboarding.repository.ProductImageRepository;
 import com.wanted.preonboarding.repository.ProductOptionGroupRepository;
 import com.wanted.preonboarding.repository.ProductOptionRepository;
 import com.wanted.preonboarding.repository.ProductRepository;
@@ -44,6 +45,7 @@ public class ProductService {
     private final TagRepository tagRepository;
     private final ProductOptionRepository optionRepository;
     private final ProductOptionGroupRepository optionGroupRepository;
+    private final ProductImageRepository imageRepository;
     private final ProductMapper productMapper;
 
     public ProductDto.Product createProduct(ProductDto.CreateRequest request) {
@@ -361,5 +363,29 @@ public class ProductService {
         }
 
         optionRepository.delete(option);
+    }
+
+
+    @Transactional
+    public ProductDto.Image addProductImage(Long productId, ProductDto.Image request) {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new ResourceNotFoundException("Product", productId));
+
+        ProductOption option = null;
+        if (request.getOptionId() != null) {
+            option = optionRepository.findById(request.getOptionId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Option", request.getOptionId()));
+
+            // 해당 옵션이 요청된 상품에 속하는지 확인
+            if (!option.getOptionGroup().getProduct().getId().equals(productId)) {
+                throw new IllegalArgumentException("Option does not belong to the specified product");
+            }
+        }
+
+        // 이미지 엔티티 생성 및 저장
+        ProductImage image = productMapper.toProductImageEntity(request, product, option);
+        image = imageRepository.save(image);
+
+        return productMapper.toImageDto(image);
     }
 }
