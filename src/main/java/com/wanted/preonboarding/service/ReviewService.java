@@ -1,6 +1,9 @@
 package com.wanted.preonboarding.service;
 
+import com.wanted.preonboarding.entity.Product;
 import com.wanted.preonboarding.entity.Review;
+import com.wanted.preonboarding.entity.User;
+import com.wanted.preonboarding.exception.AccessDeniedException;
 import com.wanted.preonboarding.exception.ResourceNotFoundException;
 import com.wanted.preonboarding.repository.ProductRepository;
 import com.wanted.preonboarding.repository.ReviewRepository;
@@ -66,5 +69,79 @@ public class ReviewService {
                 .summary(summary)
                 .pagination(paginationInfo)
                 .build();
+    }
+
+    @Transactional
+    public ReviewDto.Review createReview(Long productId, Long userId, ReviewDto.CreateRequest request) {
+        // 상품 존재 확인
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new ResourceNotFoundException("Product", productId));
+
+        // 사용자 존재 확인
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", userId));
+
+        // 리뷰 생성
+        Review review = Review.builder()
+                .product(product)
+                .user(user)
+                .rating(request.getRating())
+                .title(request.getTitle())
+                .content(request.getContent())
+                .verifiedPurchase(true) // 실제로는 구매 여부 확인 로직이 필요
+                .helpfulVotes(0)
+                .build();
+
+        // 저장
+        review = reviewRepository.save(review);
+
+        // 응답 변환
+        return reviewMapper.toReviewDto(review);
+    }
+
+    @Transactional
+    public ReviewDto.Review updateReview(Long reviewId, Long userId, ReviewDto.UpdateRequest request) {
+        // 리뷰 존재 확인
+        Review review = reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new ResourceNotFoundException("Review", reviewId));
+
+        // 권한 확인 (리뷰 작성자만 수정 가능)
+        if (!review.getUser().getId().equals(userId)) {
+            throw new AccessDeniedException("다른 사용자의 리뷰를 수정할 권한이 없습니다.");
+        }
+
+        // 리뷰 수정
+        if (request.getRating() != null) {
+            review.setRating(request.getRating());
+        }
+
+        if (request.getTitle() != null) {
+            review.setTitle(request.getTitle());
+        }
+
+        if (request.getContent() != null) {
+            review.setContent(request.getContent());
+        }
+
+        // 저장
+        review = reviewRepository.save(review);
+
+        // 응답 변환
+        return reviewMapper.toReviewDto(review);
+    }
+
+    @Transactional
+    public void deleteReview(Long reviewId, Long userId) {
+        // 리뷰 존재 확인
+        Review review = reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new ResourceNotFoundException("Review", reviewId));
+
+        // 권한 확인 (리뷰 작성자만 삭제 가능)
+        if (!review.getUser().getId().equals(userId)) {
+            throw new AccessDeniedException("다른 사용자의 리뷰를 삭제할 권한이 없습니다.");
+        }
+
+        // 리뷰 삭제
+        reviewRepository.delete(review);
     }
 }
