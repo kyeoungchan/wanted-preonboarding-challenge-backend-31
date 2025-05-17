@@ -1,5 +1,7 @@
 package com.wanted.preonboarding.entity;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -19,7 +21,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Review extends BaseEntity {
 
     @Id
@@ -27,16 +29,26 @@ public class Review extends BaseEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id")
+    @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private Users users;
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
+    @Column(nullable = false)
     private Integer rating;
+
+    @Column(length = 200)
     private String title;
+
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
-    private Boolean verifiedPurchase;
-    private Integer helpfulVotes;
+
+    @Column(nullable = false)
+    private boolean verifiedPurchase;
+
+    @Column(nullable = false)
+    @Builder.Default
+    private Integer helpfulVotes = 0;
 }
