@@ -6,15 +6,17 @@ import com.wanted.preonboarding.controller.dto.request.ProductListRequest;
 import com.wanted.preonboarding.controller.dto.request.ProductOptionRequest;
 import com.wanted.preonboarding.controller.dto.request.ProductUpdateRequest;
 import com.wanted.preonboarding.service.dto.PaginationDto;
-import com.wanted.preonboarding.service.dto.ProductDto;
+import com.wanted.preonboarding.service.product.ProductDto;
+import com.wanted.preonboarding.service.product.command.ProductCommand;
+import com.wanted.preonboarding.service.product.query.ProductQuery;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ControllerProductMapper {
+public class ProductControllerMapper {
 
     // controller dto -> service dto
-    public ProductDto.CreateRequest toProductDtoCreateRequest(ProductCreateRequest request) {
-        return ProductDto.CreateRequest.builder()
+    public ProductCommand.CreateProduct toProductDtoCreateRequest(ProductCreateRequest request) {
+        return ProductCommand.CreateProduct.builder()
                 .name(request.getName())
                 .slug(request.getSlug())
                 .shortDescription(request.getShortDescription())
@@ -87,8 +89,8 @@ public class ControllerProductMapper {
                 .build();
     }
 
-    public ProductDto.ListRequest toProductDtoListRequest(ProductListRequest request) {
-        return ProductDto.ListRequest.builder()
+    public ProductQuery.ListProducts toProductDtoListRequest(ProductListRequest request) {
+        return ProductQuery.ListProducts.builder()
                 .status(request.getStatus())
                 .minPrice(request.getMinPrice())
                 .maxPrice(request.getMaxPrice())
@@ -112,8 +114,8 @@ public class ControllerProductMapper {
                 .build();
     }
 
-    public ProductDto.UpdateRequest toServiceUpdateDto(ProductUpdateRequest request) {
-        return ProductDto.UpdateRequest.builder()
+    public ProductCommand.UpdateProduct toServiceUpdateDto(ProductUpdateRequest request) {
+        return ProductCommand.UpdateProduct.builder()
                 .name(request.getName())
                 .slug(request.getSlug())
                 .shortDescription(request.getShortDescription())

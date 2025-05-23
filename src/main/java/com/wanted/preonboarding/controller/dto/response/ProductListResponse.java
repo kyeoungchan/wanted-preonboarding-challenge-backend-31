@@ -1,7 +1,7 @@
 package com.wanted.preonboarding.controller.dto.response;
 
 import com.wanted.preonboarding.service.dto.PaginationDto;
-import com.wanted.preonboarding.service.dto.ProductDto;
+import com.wanted.preonboarding.service.product.ProductDto;
 import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

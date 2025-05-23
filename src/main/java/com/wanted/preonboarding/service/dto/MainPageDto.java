@@ -1,5 +1,6 @@
 package com.wanted.preonboarding.service.dto;
 
+import com.wanted.preonboarding.service.product.ProductDto;
 import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

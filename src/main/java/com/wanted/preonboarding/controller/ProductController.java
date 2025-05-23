@@ -7,9 +7,13 @@ import com.wanted.preonboarding.controller.dto.response.ApiResponse;
 import com.wanted.preonboarding.controller.dto.request.ProductCreateRequest;
 import com.wanted.preonboarding.controller.dto.request.ProductListRequest;
 import com.wanted.preonboarding.controller.dto.response.ProductListResponse;
-import com.wanted.preonboarding.controller.mapper.ControllerProductMapper;
+import com.wanted.preonboarding.controller.mapper.ProductControllerMapper;
 import com.wanted.preonboarding.service.ProductService;
-import com.wanted.preonboarding.service.dto.ProductDto;
+import com.wanted.preonboarding.service.product.ProductDto;
+import com.wanted.preonboarding.service.product.command.ProductCommand;
+import com.wanted.preonboarding.service.product.command.ProductCommandHandler;
+import com.wanted.preonboarding.service.product.query.ProductQuery;
+import com.wanted.preonboarding.service.product.query.ProductQueryHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springdoc.core.annotations.ParameterObject;
@@ -30,28 +34,32 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @Slf4j
 public class ProductController {
-    private final ProductService productService;
-    private final ControllerProductMapper mapper;
+    private final ProductCommandHandler productCommandHandler;
+    private final ProductQueryHandler productQueryHandler;
+    private final ProductControllerMapper mapper;
 
     @PostMapping
     public ResponseEntity<ApiResponse<ProductDto.Product>> addProduct(@RequestBody ProductCreateRequest request) {
         log.info("request: {}", request);
-        ProductDto.CreateRequest createRequest = mapper.toProductDtoCreateRequest(request);
-        ProductDto.Product createdProduct = productService.createProduct(createRequest);
+        ProductCommand.CreateProduct command = mapper.toProductDtoCreateRequest(request);
+        ProductDto.Product createdProduct = productCommandHandler.createProduct(command);
         return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success(createdProduct, "상품이 성공적으로 등록되었습니다."));
     }
 
     @GetMapping
     public ResponseEntity<ApiResponse<ProductListResponse>> getProducts(@ParameterObject ProductListRequest request) {
         return ResponseEntity.ok(ApiResponse.success(
-                productService.getProducts(mapper.toProductDtoListRequest(request)),
+                productQueryHandler.getProducts(mapper.toProductDtoListRequest(request)),
                 "상품 목록을 정상적으로 조회했습니다."
         ));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<ProductDto.Product>> getProduct(@PathVariable Long id) {
-        ProductDto.Product foundProduct = productService.getProductById(id);
+        ProductQuery.GetProduct query = ProductQuery.GetProduct.builder()
+                .productId(id)
+                .build();
+        ProductDto.Product foundProduct = productQueryHandler.getProduct(query);
         return ResponseEntity.ok(ApiResponse.success(foundProduct, "상품 상세 정보를 성공적으로 조회했습니다."));
     }
 
@@ -60,14 +68,17 @@ public class ProductController {
             @PathVariable Long id,
             @RequestBody ProductUpdateRequest request
     ) {
-        ProductDto.UpdateRequest updateRequest = mapper.toServiceUpdateDto(request);
-        ProductDto.Product updatedProduct = productService.updateProduct(id, updateRequest);
+        ProductCommand.UpdateProduct command = mapper.toServiceUpdateDto(request);
+        ProductDto.Product updatedProduct = productCommandHandler.updateProduct(command);
         return ResponseEntity.ok(ApiResponse.success(updatedProduct, "상품이 성공적으로 수정되었습니다."));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<Void>> deleteProduct(@PathVariable Long id) {
-        productService.deleteProduct(id);
+        ProductCommand.DeleteProduct command = ProductCommand.DeleteProduct.builder()
+                .productId(id)
+                .build();
+        productCommandHandler.deleteProduct(command);
         return ResponseEntity.ok(ApiResponse.success(null, "상품이 성공적으로 삭제되었습니다."));
     }
 
@@ -77,8 +88,11 @@ public class ProductController {
             @RequestParam Long optionGroupId,
             @RequestBody ProductOptionRequest request
     ) {
-        ProductDto.Option createRequest = mapper.toProductDtoOptionWithOptionGroupId(optionGroupId, request);
-        ProductDto.Option createdOption = productService.addProductOption(id, createRequest);
+        ProductCommand.AddProductOption command = ProductCommand.AddProductOption.builder()
+                .productId(id)
+                .option(mapper.toProductDtoOptionWithOptionGroupId(optionGroupId, request))
+                .build();
+        ProductDto.Option createdOption = productCommandHandler.addProductOption(command);
         return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success(createdOption, "상품 옵션이 성공적으로 추가되었습니다."));
     }
 
@@ -88,8 +102,11 @@ public class ProductController {
             @PathVariable Long optionId,
             @RequestBody ProductOptionRequest request
     ) {
-        ProductDto.Option updateRequest = mapper.toProductDtoOptionWithOptionId(optionId, request);
-        ProductDto.Option updatedOption = productService.updateProductOption(id, updateRequest);
+        ProductCommand.UpdateProductOption command = ProductCommand.UpdateProductOption.builder()
+                .productId(id)
+                .option(mapper.toProductDtoOptionWithOptionId(optionId, request))
+                .build();
+        ProductDto.Option updatedOption = productCommandHandler.updateProductOption(command);
         return ResponseEntity.ok(ApiResponse.success(updatedOption, "상품 옵션이 성공적으로 수정되었습니다."));
     }
 
@@ -98,7 +115,11 @@ public class ProductController {
             @PathVariable Long id,
             @PathVariable Long optionId
     ) {
-        productService.deleteProductOption(id, optionId);
+        ProductCommand.DeleteProductOption command = ProductCommand.DeleteProductOption.builder()
+                .productId(id)
+                .optionId(optionId)
+                .build();
+        productCommandHandler.deleteProductOption(command);
         return ResponseEntity.ok(ApiResponse.success(null, "상품 옵션이 성공적으로 삭제되었습니다."));
     }
 
@@ -107,8 +128,11 @@ public class ProductController {
             @PathVariable Long id,
             @RequestBody ProductImageRequest request
     ) {
-        ProductDto.Image createRequest = mapper.toProductDtoImage(request);
-        ProductDto.Image createdImage = productService.addProductImage(id, createRequest);
+        ProductCommand.AddProductImage command = ProductCommand.AddProductImage.builder()
+                .productId(id)
+                .image(mapper.toProductDtoImage(request))
+                .build();
+        ProductDto.Image createdImage = productCommandHandler.addProductImage(command);
         return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success(createdImage, "상품 이미지가 성공적으로 추가되었습니다."));
     }
 }

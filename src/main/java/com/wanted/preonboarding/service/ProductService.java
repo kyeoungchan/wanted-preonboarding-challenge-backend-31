@@ -1,3 +1,4 @@
+/*
 package com.wanted.preonboarding.service;
 
 import com.wanted.preonboarding.constant.ProductStatus;
@@ -23,7 +24,7 @@ import com.wanted.preonboarding.repository.ProductSpecification;
 import com.wanted.preonboarding.repository.SellerRepository;
 import com.wanted.preonboarding.repository.TagRepository;
 import com.wanted.preonboarding.service.dto.PaginationDto;
-import com.wanted.preonboarding.service.dto.ProductDto;
+import com.wanted.preonboarding.service.product.ProductDto;
 import com.wanted.preonboarding.service.mapper.ProductMapper;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -31,7 +32,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
@@ -391,3 +391,4 @@ public class ProductService {
         return productMapper.toImageDto(image);
     }
 }
+*/

@@ -1,5 +1,6 @@
-package com.wanted.preonboarding.service.dto;
+package com.wanted.preonboarding.service.product;
 
+import com.wanted.preonboarding.service.dto.PaginationDto;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -13,36 +14,8 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.springframework.format.annotation.DateTimeFormat;
 
 public class ProductDto {
-
-    @ToString
-    @Builder
-    @Getter
-    @NoArgsConstructor(access = AccessLevel.PRIVATE)
-    @AllArgsConstructor(access = AccessLevel.PRIVATE)
-    public static class CreateRequest {
-        private String name;
-        private String slug;
-        private String shortDescription;
-        private String fullDescription;
-        private String status;
-
-        private Long sellerId;
-        private Long brandId;
-
-        private Detail detail;
-        private Price price;
-        @Builder.Default
-        private List<ProductCategory> categories = new ArrayList<>();
-        @Builder.Default
-        private List<OptionGroup> optionGroups = new ArrayList<>();
-        @Builder.Default
-        private List<Image> images = new ArrayList<>();
-        @Builder.Default
-        private List<Long> tagIds = new ArrayList<>();
-    }
 
     @Builder
     @Getter
@@ -212,46 +185,4 @@ public class ProductDto {
         private LocalDateTime createdAt;
     }
 
-    @Builder
-    @Getter
-    @NoArgsConstructor(access = AccessLevel.PRIVATE)
-    @AllArgsConstructor(access = AccessLevel.PRIVATE)
-    public static class ListRequest {
-        private String status;
-        private BigDecimal minPrice;
-        private BigDecimal maxPrice;
-        private List<Long> category;
-        private Long seller;
-        private Long brand;
-        private Boolean inStock;
-        private List<Long> tag;
-        private String search;
-
-        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-        private LocalDate createdFrom;
-
-        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-        private LocalDate createdTo;
-
-        private PaginationDto.PaginationRequest pagination;
-    }
-
-    @Builder
-    @Getter
-    @NoArgsConstructor(access = AccessLevel.PRIVATE)
-    @AllArgsConstructor(access = AccessLevel.PRIVATE)
-    public static class UpdateRequest {
-        private String name;
-        private String slug;
-        private String shortDescription;
-        private String fullDescription;
-        private Long sellerId;
-        private Long brandId;
-        private String status;
-
-        private Detail detail;
-        private Price price;
-        private List<ProductCategory> categories;
-        private List<Long> tagIds;
-    }
 }
