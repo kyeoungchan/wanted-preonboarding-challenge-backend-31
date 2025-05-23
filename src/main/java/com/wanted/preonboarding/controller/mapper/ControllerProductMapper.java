@@ -27,7 +27,7 @@ public class ControllerProductMapper {
                 .categories(request.getCategories().stream().map(this::toProductDtoProductCategory).toList())
                 .optionGroups(request.getOptionGroups().stream().map(this::toProductDtoOptionGroup).toList())
                 .images(request.getImages().stream().map(this::toProductDtoImage).toList())
-                .tagIds(request.getTagIds().stream().toList())
+                .tagIds(request.getTags().stream().toList())
                 .build();
     }
 
@@ -124,7 +124,7 @@ public class ControllerProductMapper {
                 .detail(toProductDtoDetail(request.getDetail()))
                 .price(toProductDtoPrice(request.getPrice()))
                 .categories(request.getCategories().stream().map(this::toProductDtoProductCategory).toList())
-                .tagIds(request.getTagIds().stream().toList())
+                .tagIds(request.getTags().stream().toList())
                 .build();
     }
 
@@ -156,6 +156,7 @@ public class ControllerProductMapper {
                 .altText(request.getAltText())
                 .isPrimary(request.isPrimary())
                 .displayOrder(request.getDisplayOrder())
+                .optionId(request.getOptionId())
                 .build();
     }
 }

@@ -32,7 +32,7 @@ public class ProductCreateRequest {
     @Builder.Default
     private List<ProductCategoryDto> categories = new ArrayList<>();
     @Builder.Default
-    private List<Long> tagIds = new ArrayList<>();
+    private List<Long> tags = new ArrayList<>();
     @Builder.Default
     private List<ProductOptionGroupDto> optionGroups = new ArrayList<>();
     @Builder.Default

@@ -80,9 +80,7 @@ public class ProductService {
 
         // ProductPrice 생성 및 저장
         if (request.getPrice() != null) {
-            log.info("request price is {}", request.getPrice());
             ProductPrice price = productMapper.toProductPriceEntity(request.getPrice(), product);
-            log.info("price: {}", price);
             product.setPrice(price);
         }
 
