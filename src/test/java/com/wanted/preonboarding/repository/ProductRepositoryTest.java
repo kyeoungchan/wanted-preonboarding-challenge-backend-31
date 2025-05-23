@@ -86,6 +86,7 @@ class ProductRepositoryTest {
         log.info("product: {}", foundProduct.get());
     }
 
+/*
     @Test
     @DisplayName("상품명으로 검색 querydsl 기능이 잘 작동되는가?")
     void querydslProductTest() {
@@ -117,4 +118,5 @@ class ProductRepositoryTest {
             log.info("product: {}", product);
         }
     }
+*/
 }

@@ -19,13 +19,15 @@ public class ControllerProductMapper {
                 .slug(request.getSlug())
                 .shortDescription(request.getShortDescription())
                 .fullDescription(request.getFullDescription())
+                .sellerId(request.getSellerId())
+                .brandId(request.getBrandId())
                 .status(request.getStatus())
                 .detail(toProductDtoDetail(request.getDetail()))
                 .price(toProductDtoPrice(request.getPrice()))
                 .categories(request.getCategories().stream().map(this::toProductDtoProductCategory).toList())
                 .optionGroups(request.getOptionGroups().stream().map(this::toProductDtoOptionGroup).toList())
                 .images(request.getImages().stream().map(this::toProductDtoImage).toList())
-
+                .tagIds(request.getTagIds().stream().toList())
                 .build();
     }
 

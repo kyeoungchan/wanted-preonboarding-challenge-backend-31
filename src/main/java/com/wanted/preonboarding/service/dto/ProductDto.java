@@ -12,10 +12,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
 public class ProductDto {
 
+    @ToString
     @Builder
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -97,6 +99,7 @@ public class ProductDto {
         private Map<String, Object> additionalInfo; // JSON object for additional information
     }
 
+    @ToString
     @Builder
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)

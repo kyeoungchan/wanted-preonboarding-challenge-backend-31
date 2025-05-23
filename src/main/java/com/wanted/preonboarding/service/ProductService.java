@@ -28,11 +28,13 @@ import com.wanted.preonboarding.service.mapper.ProductMapper;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -78,7 +80,9 @@ public class ProductService {
 
         // ProductPrice 생성 및 저장
         if (request.getPrice() != null) {
+            log.info("request price is {}", request.getPrice());
             ProductPrice price = productMapper.toProductPriceEntity(request.getPrice(), product);
+            log.info("price: {}", price);
             product.setPrice(price);
         }
 
