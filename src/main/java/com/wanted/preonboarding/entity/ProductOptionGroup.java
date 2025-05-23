@@ -24,7 +24,7 @@ import lombok.ToString;
 @Table(name = "product_option_groups")
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Data
 @ToString
 public class ProductOptionGroup {

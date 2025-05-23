@@ -23,7 +23,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "categories")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Data
 public class Category {
 

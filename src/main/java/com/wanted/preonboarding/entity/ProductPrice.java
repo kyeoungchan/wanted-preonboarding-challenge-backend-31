@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "product_prices")
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Data
 public class ProductPrice {
 

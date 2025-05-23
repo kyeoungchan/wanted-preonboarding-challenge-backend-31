@@ -31,7 +31,7 @@ import lombok.Setter;
 @Table(name = "products")
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 @Setter
 public class Product extends BaseEntity {

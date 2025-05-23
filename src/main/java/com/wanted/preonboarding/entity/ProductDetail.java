@@ -22,7 +22,7 @@ import org.hibernate.annotations.Type;
 @Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class ProductDetail {
 
     @Id

@@ -11,8 +11,8 @@ import org.springframework.data.domain.Pageable;
 public class PaginationDto {
 
     @Builder
-    @AllArgsConstructor(access = AccessLevel.PROTECTED)
-    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
     @Data
     public static class PaginationRequest {
         private int page;
@@ -30,8 +30,8 @@ public class PaginationDto {
     }
 
     @Builder
-    @AllArgsConstructor(access = AccessLevel.PROTECTED)
-    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
     @Data
     public static class PaginationInfo {
         private Integer totalItems;

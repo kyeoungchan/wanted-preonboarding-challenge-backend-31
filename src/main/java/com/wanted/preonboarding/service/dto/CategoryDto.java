@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 public class CategoryDto {
 
     @Data
-    @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    @AllArgsConstructor(access = AccessLevel.PROTECTED)
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
     @Builder
     public static class Category {
         private Long id;
