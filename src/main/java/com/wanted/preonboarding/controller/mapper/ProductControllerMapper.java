@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 public class ProductControllerMapper {
 
     // controller dto -> service dto
-    public ProductCommand.CreateProduct toProductDtoCreateRequest(ProductCreateRequest request) {
+    public ProductCommand.CreateProduct toCreateProductCommand(ProductCreateRequest request) {
         return ProductCommand.CreateProduct.builder()
                 .name(request.getName())
                 .slug(request.getSlug())
@@ -114,8 +114,9 @@ public class ProductControllerMapper {
                 .build();
     }
 
-    public ProductCommand.UpdateProduct toServiceUpdateDto(ProductUpdateRequest request) {
+    public ProductCommand.UpdateProduct toUpdateProductCommand(Long productId, ProductUpdateRequest request) {
         return ProductCommand.UpdateProduct.builder()
+                .productId(productId)
                 .name(request.getName())
                 .slug(request.getSlug())
                 .shortDescription(request.getShortDescription())

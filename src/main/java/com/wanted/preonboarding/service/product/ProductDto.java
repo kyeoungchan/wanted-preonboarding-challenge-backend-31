@@ -1,10 +1,7 @@
 package com.wanted.preonboarding.service.product;
 
-import com.wanted.preonboarding.service.dto.PaginationDto;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import lombok.AccessLevel;

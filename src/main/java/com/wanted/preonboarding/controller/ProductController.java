@@ -8,7 +8,6 @@ import com.wanted.preonboarding.controller.dto.request.ProductCreateRequest;
 import com.wanted.preonboarding.controller.dto.request.ProductListRequest;
 import com.wanted.preonboarding.controller.dto.response.ProductListResponse;
 import com.wanted.preonboarding.controller.mapper.ProductControllerMapper;
-import com.wanted.preonboarding.service.ProductService;
 import com.wanted.preonboarding.service.product.ProductDto;
 import com.wanted.preonboarding.service.product.command.ProductCommand;
 import com.wanted.preonboarding.service.product.command.ProductCommandHandler;
@@ -41,7 +40,7 @@ public class ProductController {
     @PostMapping
     public ResponseEntity<ApiResponse<ProductDto.Product>> addProduct(@RequestBody ProductCreateRequest request) {
         log.info("request: {}", request);
-        ProductCommand.CreateProduct command = mapper.toProductDtoCreateRequest(request);
+        ProductCommand.CreateProduct command = mapper.toCreateProductCommand(request);
         ProductDto.Product createdProduct = productCommandHandler.createProduct(command);
         return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success(createdProduct, "상품이 성공적으로 등록되었습니다."));
     }
@@ -68,7 +67,7 @@ public class ProductController {
             @PathVariable Long id,
             @RequestBody ProductUpdateRequest request
     ) {
-        ProductCommand.UpdateProduct command = mapper.toServiceUpdateDto(request);
+        ProductCommand.UpdateProduct command = mapper.toUpdateProductCommand(id, request);
         ProductDto.Product updatedProduct = productCommandHandler.updateProduct(command);
         return ResponseEntity.ok(ApiResponse.success(updatedProduct, "상품이 성공적으로 수정되었습니다."));
     }
