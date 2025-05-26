@@ -2,18 +2,22 @@ package com.wanted.preonboarding.service.query.entity;
 
 import jakarta.persistence.Id;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.elasticsearch.annotations.DateFormat;
+import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
+import org.springframework.data.elasticsearch.annotations.Setting;
 
-@Document(collation = "products") // mongodb collection 을 지정할 수 있다.
+@Document(indexName = "products")
+@Setting(settingPath = "elasticsearch/product-index-settings.json")
 @Data
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -21,170 +25,61 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class ProductSearchDocument {
     @Id
     private Long id;
+
+    // 한글 검색을 위한 nori 분석기 적용
+    @Field(type = FieldType.Text, analyzer = "nori_analyzer")
     private String name;
-    private String slug;
+
+    @Field(type = FieldType.Text, analyzer = "nori_analyzer")
     private String shortDescription;
+
+    @Field(type = FieldType.Text, analyzer = "nori_analyzer")
     private String fullDescription;
+
+    // materials 필드 추가 (product_details 테이블에서 가져옴)
+    @Field(type = FieldType.Text, analyzer = "nori_analyzer")
+    private String materials;
+
+    @Field(type = FieldType.Keyword)
     private String status; // ACTIVE, OUT_OF_STOCK, DELETED
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
 
-    // 판매자 정보
-    private SellerInfo seller;
+    @Field(type = FieldType.Double)
+    private BigDecimal basePrice;
 
-    // 브랜드 정보
-    private BrandInfo brand;
+    @Field(type = FieldType.Double)
+    private BigDecimal salePrice;
 
-    // 상세 정보
-    private ProductDetail detail;
-
-    // 가격 정보
-    private PriceInfo price;
-
-    // 카테고리 목록
+    @Field(type = FieldType.Keyword)
     @Builder.Default
-    private List<CategoryInfo> categories = new ArrayList<>();
+    private List<Long> categoryIds = new ArrayList<>();
 
-    // 옵션 그룹 목록
+    @Field(type = FieldType.Keyword)
+    private Long sellerId;
+
+    @Field(type = FieldType.Keyword)
+    private Long brandId;
+
+    @Field(type = FieldType.Keyword)
     @Builder.Default
-    private List<OptionGroup> optionGroups = new ArrayList<>();
+    private List<Long> tagIds = new ArrayList<>();
 
-    // 이미지 목록
-    @Builder.Default
-    private List<Image> images = new ArrayList<>();
+    @Field(type = FieldType.Boolean)
+    private Boolean inStock;
 
-    // 태그 목록
-    @Builder.Default
-    private List<TagInfo> tags = new ArrayList<>();
+    @Field(type = FieldType.Date, format = DateFormat.epoch_millis)
+    private Instant createdAt;
 
-    // 리뷰 요약 정보
-    private RatingSummary rating;
+    @Field(type = FieldType.Date, format = DateFormat.epoch_millis)
+    private Instant updatedAt;
 
-    // 중첩 문서들의 정의
-    @Data
-    @Builder
-    @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    @AllArgsConstructor(access = AccessLevel.PRIVATE)
-    public static class SellerInfo {
-        private Long id;
-        private String name;
-    }
+    // 리뷰 관련 정보
+    @Field(type = FieldType.Double)
+    private Double averageRating;
 
-    @Data
-    @Builder
-    @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    @AllArgsConstructor(access = AccessLevel.PRIVATE)
-    public static class BrandInfo {
-        private Long id;
-        private String name;
-    }
+    @Field(type = FieldType.Integer)
+    private Integer reviewCount;
 
-    @Data
-    @Builder
-    @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    @AllArgsConstructor(access = AccessLevel.PRIVATE)
-    public static class ProductDetail {
-        private Double weight;
-        private Map<String, Object> dimensions;
-        private String materials;
-        private String countryOfOrigin;
-        private String warrantyInfo;
-        private String careInstructions;
-        private Map<String, Object> additionalInfo;
-    }
-
-    @Data
-    @Builder
-    @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    @AllArgsConstructor(access = AccessLevel.PRIVATE)
-    public static class PriceInfo {
-        private BigDecimal basePrice;
-        private BigDecimal salePrice;
-        private BigDecimal costPrice;
-        private String currency;
-        private BigDecimal taxRate;
-        private Integer discountPercentage;
-    }
-
-    @Data
-    @Builder
-    @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    @AllArgsConstructor(access = AccessLevel.PRIVATE)
-    public static class CategoryInfo {
-        private Long id;
-        private String name;
-        private String slug;
-        private ParentCategory parent;
-        private boolean isPrimary;
-    }
-
-    @Data
-    @Builder
-    @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    @AllArgsConstructor(access = AccessLevel.PRIVATE)
-    public static class ParentCategory {
-        private Long id;
-        private String name;
-        private String slug;
-    }
-
-    @Data
-    @Builder
-    @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    @AllArgsConstructor(access = AccessLevel.PRIVATE)
-    public static class OptionGroup {
-        private Long id;
-        private String name;
-        private Integer displayOrder;
-        @Builder.Default
-        private List<Option> options = new ArrayList<>();
-    }
-
-    @Data
-    @Builder
-    @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    @AllArgsConstructor(access = AccessLevel.PRIVATE)
-    public static class Option {
-        private Long id;
-        private String name;
-        private BigDecimal additionalPrice;
-        private String sku;
-        private Integer stock;
-        private Integer displayOrder;
-        @Builder.Default
-        private List<Image> images = new ArrayList<>();
-    }
-
-    @Data
-    @Builder
-    @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    @AllArgsConstructor(access = AccessLevel.PRIVATE)
-    public static class Image {
-        private Long id;
-        private String url;
-        private String altText;
-        private boolean isPrimary;
-        private Integer displayOrder;
-        private Long optionId;
-    }
-
-    @Data
-    @Builder
-    @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    @AllArgsConstructor(access = AccessLevel.PRIVATE)
-    public static class TagInfo {
-        private Long id;
-        private String name;
-        private String slug;
-    }
-
-    @Data
-    @Builder
-    @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    @AllArgsConstructor(access = AccessLevel.PRIVATE)
-    public static class RatingSummary {
-        private Double average;
-        private Integer count;
-        private Map<Integer, Integer> distribution; // Map rating -> count (e.g., {5: 95, 4: 20, ...})
-    }
+    // 필터링과 정렬을 위한 추가 필드
+    @Field(type = FieldType.Keyword)
+    private String slug;
 }
