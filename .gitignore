@@ -193,3 +193,6 @@ debezium-libs/debezium-scripting-2.7.3.Final.jar
 docker-compose.yml
 
 ./pgdata
+
+.gradle/
+.bash_profile

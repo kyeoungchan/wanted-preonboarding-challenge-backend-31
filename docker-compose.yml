@@ -1,9 +1,6 @@
 version: '3'
 services:
   postgres-db:
-    build:
-      context: .
-      dockerfile: Dockerfile
     image: postgres:17
     container_name: challenge-postgres
     environment:
