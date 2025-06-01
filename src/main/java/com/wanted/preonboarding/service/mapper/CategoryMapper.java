@@ -1,6 +1,6 @@
 package com.wanted.preonboarding.service.mapper;
 
-import com.wanted.preonboarding.entity.Category;
+import com.wanted.preonboarding.service.entity.Category;
 import com.wanted.preonboarding.service.dto.CategoryDto;
 import com.wanted.preonboarding.service.dto.PaginationDto;
 import org.springframework.data.domain.Page;

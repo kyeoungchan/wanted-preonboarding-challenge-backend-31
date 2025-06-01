@@ -1,10 +1,10 @@
 package com.wanted.preonboarding.repository;
 
-import com.wanted.preonboarding.constant.ProductStatus;
-import com.wanted.preonboarding.entity.Brand;
-import com.wanted.preonboarding.entity.Product;
-import com.wanted.preonboarding.entity.Seller;
-import java.util.List;
+import com.wanted.preonboarding.service.entity.ProductStatus;
+import com.wanted.preonboarding.service.entity.Brand;
+import com.wanted.preonboarding.service.entity.Product;
+import com.wanted.preonboarding.service.entity.Seller;
+import com.wanted.preonboarding.service.repository.ProductRepository;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;

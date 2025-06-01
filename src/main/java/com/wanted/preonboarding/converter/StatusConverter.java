@@ -1,6 +1,6 @@
 package com.wanted.preonboarding.converter;
 
-import com.wanted.preonboarding.constant.ProductStatus;
+import com.wanted.preonboarding.service.entity.ProductStatus;
 import jakarta.persistence.AttributeConverter;
 
 public class StatusConverter implements AttributeConverter<ProductStatus, String> {

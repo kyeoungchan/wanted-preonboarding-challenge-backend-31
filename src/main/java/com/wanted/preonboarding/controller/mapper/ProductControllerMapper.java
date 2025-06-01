@@ -7,8 +7,8 @@ import com.wanted.preonboarding.controller.dto.request.ProductOptionRequest;
 import com.wanted.preonboarding.controller.dto.request.ProductUpdateRequest;
 import com.wanted.preonboarding.service.dto.PaginationDto;
 import com.wanted.preonboarding.service.product.ProductDto;
-import com.wanted.preonboarding.service.product.command.ProductCommand;
-import com.wanted.preonboarding.service.product.query.ProductQuery;
+import com.wanted.preonboarding.service.product.ProductCommand;
+import com.wanted.preonboarding.service.query.ProductQuery;
 import org.springframework.stereotype.Component;
 
 @Component

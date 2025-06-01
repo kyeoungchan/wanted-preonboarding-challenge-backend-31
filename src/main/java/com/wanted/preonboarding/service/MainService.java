@@ -1,10 +1,10 @@
 package com.wanted.preonboarding.service;
 
-import com.wanted.preonboarding.constant.ProductStatus;
-import com.wanted.preonboarding.entity.Category;
-import com.wanted.preonboarding.entity.Product;
-import com.wanted.preonboarding.repository.CategoryRepository;
-import com.wanted.preonboarding.repository.ProductRepository;
+import com.wanted.preonboarding.service.entity.ProductStatus;
+import com.wanted.preonboarding.service.entity.Category;
+import com.wanted.preonboarding.service.entity.Product;
+import com.wanted.preonboarding.service.repository.CategoryRepository;
+import com.wanted.preonboarding.service.repository.ProductRepository;
 import com.wanted.preonboarding.service.dto.MainPageDto;
 import com.wanted.preonboarding.service.mapper.ProductMapper;
 import java.util.HashMap;

@@ -1,10 +1,10 @@
 package com.wanted.preonboarding.service;
 
-import com.wanted.preonboarding.entity.Category;
-import com.wanted.preonboarding.entity.Product;
+import com.wanted.preonboarding.service.entity.Category;
+import com.wanted.preonboarding.service.entity.Product;
 import com.wanted.preonboarding.exception.ResourceNotFoundException;
-import com.wanted.preonboarding.repository.CategoryRepository;
-import com.wanted.preonboarding.repository.ProductRepository;
+import com.wanted.preonboarding.service.repository.CategoryRepository;
+import com.wanted.preonboarding.service.repository.ProductRepository;
 import com.wanted.preonboarding.service.dto.CategoryDto;
 import com.wanted.preonboarding.service.dto.PaginationDto;
 import com.wanted.preonboarding.service.mapper.CategoryMapper;

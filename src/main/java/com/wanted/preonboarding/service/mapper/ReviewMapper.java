@@ -1,7 +1,7 @@
 package com.wanted.preonboarding.service.mapper;
 
-import com.wanted.preonboarding.entity.Review;
-import com.wanted.preonboarding.entity.User;
+import com.wanted.preonboarding.service.entity.Review;
+import com.wanted.preonboarding.service.entity.User;
 import com.wanted.preonboarding.service.dto.ReviewDto;
 import java.util.List;
 import java.util.Map;

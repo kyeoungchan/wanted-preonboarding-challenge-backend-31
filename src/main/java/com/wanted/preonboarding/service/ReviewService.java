@@ -1,13 +1,13 @@
 package com.wanted.preonboarding.service;
 
-import com.wanted.preonboarding.entity.Product;
-import com.wanted.preonboarding.entity.Review;
-import com.wanted.preonboarding.entity.User;
+import com.wanted.preonboarding.service.entity.Product;
+import com.wanted.preonboarding.service.entity.Review;
+import com.wanted.preonboarding.service.entity.User;
 import com.wanted.preonboarding.exception.AccessDeniedException;
 import com.wanted.preonboarding.exception.ResourceNotFoundException;
-import com.wanted.preonboarding.repository.ProductRepository;
-import com.wanted.preonboarding.repository.ReviewRepository;
-import com.wanted.preonboarding.repository.UserRepository;
+import com.wanted.preonboarding.service.repository.ProductRepository;
+import com.wanted.preonboarding.service.repository.ReviewRepository;
+import com.wanted.preonboarding.service.repository.UserRepository;
 import com.wanted.preonboarding.service.dto.PaginationDto;
 import com.wanted.preonboarding.service.dto.ReviewDto;
 import com.wanted.preonboarding.service.mapper.ReviewMapper;
