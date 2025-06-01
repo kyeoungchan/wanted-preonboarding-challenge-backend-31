@@ -18,6 +18,7 @@ public class ProductDto {
     @Getter
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @ToString
     public static class Product {
         private Long id;
         private String name;
@@ -35,12 +36,14 @@ public class ProductDto {
         private List<OptionGroup> optionGroups;
         private List<Image> images;
         private List<Tag> tags;
+        private RatingSummary rating;
     }
 
     @Builder
     @Getter
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @ToString
     public static class Seller {
         private Long id;
         private String name;
@@ -50,6 +53,7 @@ public class ProductDto {
     @Getter
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @ToString
     public static class Brand {
         private Long id;
         private String name;
@@ -59,6 +63,7 @@ public class ProductDto {
     @Getter
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @ToString
     public static class Detail {
         private Double weight;
         private Map<String, Object> dimensions; // JSON: {"width": float, "height": float, "depth": float}
@@ -69,23 +74,26 @@ public class ProductDto {
         private Map<String, Object> additionalInfo; // JSON object for additional information
     }
 
-    @ToString
     @Builder
     @Getter
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @ToString
     public static class Price {
         private BigDecimal basePrice;
         private BigDecimal salePrice;
         private BigDecimal costPrice;
         private String currency;
         private BigDecimal taxRate;
+        @Builder.Default
+        private Integer discountPercentage = 0;
     }
 
     @Builder
     @Getter
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @ToString
     public static class Category {
         private Long id;
         private String name;
@@ -97,6 +105,7 @@ public class ProductDto {
     @Getter
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @ToString
     public static class ParentCategory {
         private Long id;
         private String name;
@@ -107,6 +116,7 @@ public class ProductDto {
     @Getter
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @ToString
     public static class OptionGroup {
         private Long id;
         private String name;
@@ -115,9 +125,9 @@ public class ProductDto {
     }
 
     @Builder
-    @Data
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @Data
     public static class Option {
         private Long id;
         private Long optionGroupId;
@@ -132,6 +142,7 @@ public class ProductDto {
     @Getter
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @ToString
     public static class Image {
         private Long id;
         private String url;
@@ -145,6 +156,7 @@ public class ProductDto {
     @Getter
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @ToString
     public static class Tag {
         private Long id;
         private String name;
@@ -155,6 +167,7 @@ public class ProductDto {
     @Getter
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @ToString
     public static class ProductCategory {
         private Long id;
         private Boolean isPrimary;
@@ -164,6 +177,7 @@ public class ProductDto {
     @Getter
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @ToString
     public static class ProductSummary {
         private Long id;
         private String name;
@@ -182,4 +196,14 @@ public class ProductDto {
         private LocalDateTime createdAt;
     }
 
+    @Builder
+    @Getter
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @ToString
+    public static class RatingSummary {
+        private Double average;
+        private Integer count;
+        private Map<Integer, Integer> distribution; // Map rating -> count (e.g., {5: 95, 4: 20, ...})
+    }
 }
