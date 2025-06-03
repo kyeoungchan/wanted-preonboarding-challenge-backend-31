@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,6 +20,7 @@ public class MainPageQueryService implements MainPageQueryHandler {
     private final ProductDocumentMapper productDocumentMapper;
 
     @Override
+    @Cacheable(value = "mainPage")
     public MainPageDto.MainPage getMainPageContents() {
         // 1. 신규 상품 조회 (최근 등록 순 5개)
         List<ProductDocument> newProducts = productDocumentOperations.findNewProducts(5);

@@ -13,6 +13,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.elasticsearch.core.SearchHit;
 import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,7 @@ public class ProductQueryService implements ProductQueryHandler {
     private final ProductDocumentMapper productDocumentMapper;
 
     @Override
+    @Cacheable(value = "products", key = "#query.productId")
     public ProductDto.Product getProduct(ProductQuery.GetProduct query) {
         Long productId = query.getProductId();
 
@@ -42,6 +44,12 @@ public class ProductQueryService implements ProductQueryHandler {
     }
 
     @Override
+    @Cacheable(
+            value = "productList",
+            key = "#query",
+            condition = "#query.pagination.page == 1",
+            unless = "#result.items.size() == 0"
+    )
     public ProductListResponse getProducts(ProductQuery.ListProducts query) {
         // 1. Elasticsearch 에서 조건에 맞는 상품 ID 목록 조회
         SearchHits<ProductSearchDocument> searchHits = productSearchOperations.searchProductsByConditions(query);
