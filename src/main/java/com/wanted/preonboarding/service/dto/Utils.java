@@ -27,7 +27,7 @@ public class Utils {
 
     static Sort createBasicSortBySortParams(String sort) {
         String[] sortParams = sort.split(":");
-        String sortField = Utils.convertToCamelCase(sortParams[0]); // snake_case -> camelCase 변환
+        String sortField = sortParams[0].equals("_score") ? sortParams[0] : Utils.convertToCamelCase(sortParams[0]); // snake_case -> camelCase 변환
         Sort.Direction direction = sortParams.length > 1 && sortParams[1].equals("asc")
                 ? Sort.Direction.ASC : Sort.Direction.DESC;
         return Sort.by(direction, sortField);
