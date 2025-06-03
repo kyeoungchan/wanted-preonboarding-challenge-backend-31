@@ -13,11 +13,11 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Slf4j
-public class ProductPriceEventHandler extends ProductSearchModelEventHandler {
+public class ProductPriceSMEHandler extends ProductSearchModelEventHandler {
 
     private final ElasticsearchOperations elasticsearchOperations;
 
-    public ProductPriceEventHandler(
+    public ProductPriceSMEHandler(
             ObjectMapper objectMapper,
             ElasticsearchOperations elasticsearchOperations) {
         super(objectMapper);

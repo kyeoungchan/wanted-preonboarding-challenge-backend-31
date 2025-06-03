@@ -11,11 +11,11 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Slf4j
-public class ProductEventHandler extends ProductSearchModelEventHandler {
+public class ProductSMEHandler extends ProductSearchModelEventHandler {
     
     private final ProductSearchRepository productSearchRepository;
     
-    public ProductEventHandler(ObjectMapper objectMapper, ProductSearchRepository productSearchRepository) {
+    public ProductSMEHandler(ObjectMapper objectMapper, ProductSearchRepository productSearchRepository) {
         super(objectMapper);
         this.productSearchRepository = productSearchRepository;
     }
