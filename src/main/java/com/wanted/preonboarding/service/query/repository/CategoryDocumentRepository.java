@@ -8,8 +8,8 @@ import org.springframework.data.mongodb.repository.Query;
 public interface CategoryDocumentRepository extends MongoRepository<CategoryDocument, String> {
 
     @Query("{'level':  ?0}")
-    List<CategoryDocument> findByLevel(String level);
+    List<CategoryDocument> findByLevel(Integer level);
 
     @Query("{'parent.id':  ?0}")
-    List<CategoryDocument> findByParentId(String parentId);
+    List<CategoryDocument> findByParentId(Long parentId);
 }
