@@ -8,7 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collation = "tags")
+@Document(collection = "tags")
 @Data
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

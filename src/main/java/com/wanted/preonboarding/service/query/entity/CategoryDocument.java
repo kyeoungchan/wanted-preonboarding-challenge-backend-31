@@ -10,7 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collation = "categories")
+@Document(collection = "categories")
 @Data
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
