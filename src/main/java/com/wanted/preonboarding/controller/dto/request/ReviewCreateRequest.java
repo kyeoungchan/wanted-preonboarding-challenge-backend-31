@@ -1,0 +1,15 @@
+package com.wanted.preonboarding.controller.dto.request;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Getter
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class ReviewCreateRequest {
+    private Integer rating;
+    private String title;
+    private String content;
+}
