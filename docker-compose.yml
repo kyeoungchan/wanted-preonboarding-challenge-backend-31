@@ -11,6 +11,7 @@ services:
       - "5432:5432"
     volumes:
       - challenge_db_data:/var/lib/postgresql/data
+    # Debezium CDC를 위한 설정 추가
     command:
       - "postgres"
       - "-c"
@@ -75,6 +76,8 @@ services:
       - postgres-db
     ports:
       - "8083:8083"
+    volumes:
+      - ./debezium-libs:/kafka/connect/debezium-libs
     environment:
       GROUP_ID: 1
       CONFIG_STORAGE_TOPIC: connect_configs
